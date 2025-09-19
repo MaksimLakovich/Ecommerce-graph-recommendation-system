@@ -8,6 +8,13 @@ class AppUser(AbstractUser):
     """Модель представляет Пользователя/Ппокупателя (авторизация по email)."""
 
     username = None  # type: ignore
+    dataset_user_id = models.IntegerField(
+        null=True,
+        blank=True,
+        db_index=True,
+        verbose_name="ID пользователя в датасете:",
+        help_text="Введите ID пользователя в датасете:",
+    )
     email = models.EmailField(
         unique=True,
         verbose_name="Почта (username):",
@@ -57,4 +64,4 @@ class AppUser(AbstractUser):
     class Meta:
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
-        ordering = ["id"]
+        ordering = ["id", "dataset_user_id"]

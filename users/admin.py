@@ -7,10 +7,10 @@ from users.models import AppUser
 @admin.register(AppUser)
 class AppUserAdmin(UserAdmin):
     """Настройка отображения модели User (Пользователь/Покупатель) в админке."""
-    list_display = ("email", "first_name", "last_name", "is_staff", "is_superuser", "is_active")
+    list_display = ("id", "dataset_user_id", "email", "first_name", "last_name", "is_staff", "is_superuser", "is_active")
     list_filter = ("is_staff", "is_superuser", "is_active")
-    search_fields = ("id", "email", "first_name", "last_name")
-    ordering = ("id",)
+    search_fields = ("dataset_user_id", "email", "first_name", "last_name")
+    ordering = ("id", "dataset_user_id")
     readonly_fields = ("last_login", "date_joined")  # чтобы в админке их случайно не изменили
     # Группирует поля при редактировании пользователя:
     fieldsets = (
