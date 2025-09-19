@@ -28,7 +28,8 @@
 [6. Документация](#title6)  
 [7. Данные для исследования](#title7)  
 [8. Roadmap](#title8)  
-[9. Автор](#title9)  
+[9. Переменные окружения](#title9)  
+[10. Автор](#title10)  
 
 ---
 
@@ -136,7 +137,32 @@ http://localhost:8000/api/docs/
 
 ---
 
-## <a id="title9"> 👨‍💻 Автор </a>
+## <a id="title9"> 🔑 Переменные окружения </a>
+
+Все конфигурации проекта хранятся в файле `.env`.  
+Пример файла доступен в репозитории как `.env.example`.
+
+1. Скопируйте `.env.example` в `.env`:
+   ```commandline
+   cp .env.example .env
+   ```
+2. Укажите значения для переменных:
+
+| Переменная | Описание                    | Пример                |
+| ------- |-----------------------------|-----------------------|
+| `DJANGO_SECRET_KEY` | Секретный ключ Django       | `django-insecure-...` |
+| `DEBUG` | Режим отладки (True/False)  | `True`                |
+| `DATABASE_NAME`      | Назване БД в PostgreSQL     | `<some_bd_name>`      |
+| `DATABASE_PASSWORD` | Пароль к БД в PostgreSQL    | `<some_bd_password>`  |
+| `DATABASE_HOST`           | Хост БД                     |                       |
+| `DATABASE_PORT`           | Порт БД                     |                       |
+| `ALLOWED_HOSTS` | Список хостов через запятую | `localhost,127.0.0.1` |
+ 
+
+
+---
+
+## <a id="title10"> 👨‍💻 Автор </a>
 
 Разработано в рамках дипломного проекта.
  
