@@ -12,7 +12,8 @@ dependencies = [
     "python-dotenv (>=1.1.1,<2.0.0)",
     "psycopg2-binary (>=2.9.10,<3.0.0)",
     "pillow (>=11.3.0,<12.0.0)",
-    "djangorestframework (>=3.16.1,<4.0.0)"
+    "djangorestframework (>=3.16.1,<4.0.0)",
+    "pandas (>=2.3.2,<3.0.0)"
 ]
 
 
@@ -29,4 +30,6 @@ isort = "^6.0.1"
 
 [tool.poetry.group.dev.dependencies]
 kaggle = "^1.7.4.5"
+django-stubs = "^5.2.5"
+pandas-stubs = "^2.3.2.250827"
 
