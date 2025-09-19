@@ -1,4 +1,4 @@
-# Graph-based Recommendation System for E-commerce
+# Ecommerce Graph Recommendation System
 
 # Система рекомендаций на основе графов для e-commerce
 
@@ -24,22 +24,23 @@
 [2. Технологии](#title2)   
 [3. Структура репозитория](#title3)   
 [4. API и функционал](#title4)  
-[5. Быстрый старт](#title5)  
-[6. Документация](#title6)  
-[7. Данные для исследования](#title7)  
-[8. Roadmap](#title8)  
-[9. Переменные окружения](#title9)  
+[5. Переменные окружения](#title5)  
+[6. Быстрый старт](#title6)  
+[7. Документация](#title7)  
+[8. Данные для исследования](#title8)  
+[9. Roadmap](#title9)
 [10. Автор](#title10)  
 
 ---
 
 ## <a id="title1"> 📌 О проекте </a>
-Система рекомендаций для e-commerce, основанная на алгоритмах графов.  
+Рекомендательная система для e-commerce, основанная на графовых алгоритмах.  
 
 1) Проект реализует три подхода к построению рекомендаций:
-   - Алгоритм PageRank для оценки важности узлов (товаров).
-   - Алгоритм коллаборативной фильтрации для рекомендаций на основе схожести пользователей (Collaborative Filtering).
-   - Алгоритм нахождения ближайших соседей (k-Nearest Neighbors) для нахождения пользователей с похожими интересами.
+   - Алгоритм ***PageRank*** для оценки важности узлов (товаров).
+   - Алгоритм коллаборативной фильтрации для рекомендаций на основе схожести пользователей (***Collaborative Filtering***).
+   - Алгоритм нахождения ближайших соседей (***k-Nearest Neighbors***) для нахождения пользователей с похожими интересами.
+
 
 2) Тестовые данные для БД взяты из публичного датасета [Instacart Market Basket Analysis](https://www.kaggle.com/datasets/psparks/instacart-market-basket-analysis/data).  
 Детально описание как использовать тестовые данные в разделе <a id="title7"> Данные / Data </a>.
@@ -61,11 +62,18 @@
 ```bash
 .
 ├── .venv                # Виртуальное окружение poetry
-├── config/              # Django проект и приложения
+├── config/              # Django проект и приложения, настройки
 ├── data/                # Исходные CSV из Kaggle (оригинальный датасет "Instacart Market Basket Analysis")
 ├── docs/                # Дополнительная документация по деталям (dataset_info.md, architecture.md, algorithms.md и т.д.)
+│    ├── dataset_info.md
+│    ├── users_info.md
+│    └── ...
 ├── sample_data/         # Уменьшенный датасет для теста и GitHub
 ├── users/               # Приложение проекта (клиенты)
+│    ├── admin.py
+│    ├── managers.py
+│    ├── models.py
+│    └── ...
 ├── recommendation/      # Приложение проекта (алгоритмы рекомендаций)
 ├── .env.example
 ├── .flake8
@@ -88,56 +96,7 @@ http://localhost:8000/api/docs/
 
 ---
 
-## <a id="title5"> 🚀 Быстрый старт </a>
-1. Клонировать репозиторий
-    ```commandline
-    git clone https://github.com/MaksimLakovich/Ecommerce-graph-recommendation-system.git
-    cd Ecommerce-graph-recommendation-system
-    ```
-
-2. Запустить проект
-    ```commandline
-    docker-compose up --build
-    ```
-
----
-
-## <a id="title6"> 📖 Документация </a>
-
-Подробное описание алгоритмов, архитектуры и процесса запуска находится в папке `docs/`.
-
----
-
-## <a id="title7"> 🗂 Данные для исследования </a>
-
-Проект поддерживает два варианта работы с данными из публичного датасета ["Instacart Market Basket Analysis" на платформе Kaggle](https://www.kaggle.com/datasets/psparks/instacart-market-basket-analysis/data):
-
-1. **Быстрый запуск** — используйте готовые сэмплы в папке `sample_data/` (они уже включены в репозиторий).  
-   Это самый простой способ сразу запустить сервис и протестировать функциональность.
-
-2. **Полный датасет** — скачайте оригинальный датасет (объем данных ~700 MB и насчитывает миллионы записей) помещен в .gitignore и не загружался на репозиторий.  
-   При желании, его можно скачать с Kaggle самостоятельно и распаковать в папку `data/` проекта с дальнейшей загрузкой в базу для полноценного эксперимента.
-
-   
-
-Подробная инструкция по скачиванию и подготовке данных: [docs/dataset_info.md](docs/dataset_info.md)
-
----
-
-## <a id="title8"> 🛣 Roadmap </a>
-
-- [x] Базовый API для рекомендаций
-- [x] Интеграция Kaggle dataset
-- [x] Алгоритмы PageRank / CF / kNN
-- [ ] [Добавить Neo4j для больших графов](https://github.com/MaksimLakovich/Ecommerce-graph-recommendation-system/issues/3)
-- [ ] Добавить Neo4j для больших графов
-- [ ] A/B тестирование качества рекомендаций
-- [ ] Визуализация графа (D3.js / Graphviz)
-- [ ] Docker-образ для продакшн-сервера
-
----
-
-## <a id="title9"> 🔑 Переменные окружения </a>
+## <a id="title5"> 🔑 Переменные окружения </a>
 
 Все конфигурации проекта хранятся в файле `.env`.  
 Пример файла доступен в репозитории как `.env.example`.
@@ -157,8 +116,54 @@ http://localhost:8000/api/docs/
 | `DATABASE_HOST`           | Хост БД                     |                       |
 | `DATABASE_PORT`           | Порт БД                     |                       |
 | `ALLOWED_HOSTS` | Список хостов через запятую | `localhost,127.0.0.1` |
- 
 
+---
+
+## <a id="title6"> 🚀 Быстрый старт </a>
+1. Клонировать репозиторий
+    ```commandline
+    git clone https://github.com/MaksimLakovich/Ecommerce-graph-recommendation-system.git
+    cd Ecommerce-graph-recommendation-system
+    ```
+
+2. Запустить проект
+    ```commandline
+    docker-compose up --build
+    ```
+
+---
+
+## <a id="title7"> 📖 Документация </a>
+
+Подробное описание алгоритмов, архитектуры и процесса запуска находится в папке `docs/`:
+- [Описание датасета](docs/dataset_info.md)
+- [Система пользователей](docs/users_info.md)
+
+---
+
+## <a id="title8"> 🗂 Данные для исследования </a>
+
+Проект поддерживает два варианта работы с данными из публичного датасета ["Instacart Market Basket Analysis" на платформе Kaggle](https://www.kaggle.com/datasets/psparks/instacart-market-basket-analysis/data):
+
+1. **Быстрый запуск** — используйте готовые сэмплы в папке `sample_data/` (они уже включены в репозиторий).  
+   Это самый простой способ сразу запустить сервис и протестировать функциональность.
+
+2. **Полный датасет** — скачайте оригинальный датасет (объем данных ~700 MB и насчитывает миллионы записей) помещен в .gitignore и не загружался на репозиторий.  
+   При желании, его можно скачать с Kaggle самостоятельно и распаковать в папку `data/` проекта с дальнейшей загрузкой в базу для полноценного эксперимента.
+
+Подробная инструкция по скачиванию и подготовке данных: [Описание датасета](docs/dataset_info.md)
+
+---
+
+## <a id="title9"> 🛣 Roadmap </a>
+
+- [x] Базовый API для рекомендаций
+- [x] Интеграция Kaggle dataset
+- [x] Алгоритмы PageRank / CF / kNN
+- [ ] [Добавить Neo4j для больших графов](https://github.com/MaksimLakovich/Ecommerce-graph-recommendation-system/issues/3)
+- [ ] A/B тестирование качества рекомендаций
+- [ ] Визуализация графа (D3.js / Graphviz)
+- [ ] Docker-образ для продакшн-сервера
 
 ---
 
