@@ -23,14 +23,12 @@ class AppUser(AbstractUser):
     first_name = models.CharField(
         max_length=100,
         blank=True,
-        null=True,
         verbose_name="Имя:",
         help_text="Укажите имя",
     )
     last_name = models.CharField(
         max_length=100,
         blank=True,
-        null=True,
         verbose_name="Фамилия:",
         help_text="Укажите фамилию",
     )
