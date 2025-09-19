@@ -7,7 +7,9 @@ from users.models import AppUser
 @admin.register(AppUser)
 class AppUserAdmin(UserAdmin):
     """Настройка отображения модели User (Пользователь/Покупатель) в админке."""
-    list_display = ("id", "dataset_user_id", "email", "first_name", "last_name", "is_staff", "is_superuser", "is_active")
+    list_display = (
+        "id", "dataset_user_id", "email", "first_name", "last_name", "is_staff", "is_superuser", "is_active"
+    )
     list_filter = ("is_staff", "is_superuser", "is_active")
     search_fields = ("dataset_user_id", "email", "first_name", "last_name")
     ordering = ("id", "dataset_user_id")

@@ -13,7 +13,8 @@ dependencies = [
     "psycopg2-binary (>=2.9.10,<3.0.0)",
     "pillow (>=11.3.0,<12.0.0)",
     "djangorestframework (>=3.16.1,<4.0.0)",
-    "pandas (>=2.3.2,<3.0.0)"
+    "pandas (>=2.3.2,<3.0.0)",
+    "faker (>=37.8.0,<38.0.0)"
 ]
 
 
