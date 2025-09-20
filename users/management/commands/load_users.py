@@ -9,7 +9,7 @@ fake = Faker("en_US")
 
 
 def load_users_from_orders(csv_path: str, password: str = "123456qwe"):
-    """Загрузка users в БД PostgreSQL"""
+    """Загрузка users в БД PostgreSQL."""
     print(f"Загружаем пользователей из {csv_path}...")
 
     # Читаю orders_sample.csv - будем загружать сэмплы
