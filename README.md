@@ -28,7 +28,7 @@
 [6. Быстрый старт](#title6)  
 [7. Документация](#title7)  
 [8. Данные для исследования](#title8)  
-[9. Roadmap](#title9)
+[9. Roadmap](#title9)  
 [10. Автор](#title10)  
 
 ---
@@ -43,7 +43,7 @@
 
 
 2) Тестовые данные для БД взяты из публичного датасета [Instacart Market Basket Analysis](https://www.kaggle.com/datasets/psparks/instacart-market-basket-analysis/data).  
-Детально описание как использовать тестовые данные в разделе <a id="title7"> Данные / Data </a>.
+Детально описание как использовать тестовые данные в разделе <a id="title8"> Данные для исследования </a>.
 
 ---
 
@@ -66,7 +66,7 @@
 ├── data/                # Исходные CSV из Kaggle (оригинальный датасет "Instacart Market Basket Analysis")
 ├── docs/                # Дополнительная документация по деталям (dataset_info.md, architecture.md, algorithms.md и т.д.)
 │    ├── dataset_info.md
-│    ├── users_info.md
+│    ├── app_users_info.md
 │    └── ...
 ├── sample_data/         # Уменьшенный датасет для теста и GitHub
 ├── users/               # Приложение проекта (клиенты)
@@ -135,10 +135,18 @@ http://localhost:8000/api/docs/
 
 ## <a id="title7"> 📖 Документация </a>
 
-Подробное описание алгоритмов, архитектуры и процесса запуска находится в папке `docs/`:
+Подробное описание алгоритмов, архитектуры и процесса запуска находится в папке `docs/`.  
+
+Общая информация:
 - [Описание датасета (dataset_info.md)](docs/dataset_info.md): описание как скачивать оригинальный dataset с Kaggle и как создавать собственные сэмплы, если нужно уменьшить или увеличить объем в них.
-- [Приложение Users (users_info.md))](docs/users_info.md): описание модели, админки, кастомной команды для создания новых пользователей.
+
+Приложение `users`:
+- [Users (app_users_info.md))](docs/app_users_info.md): описание модели, админки, кастомной команды для создания новых пользователей.
 - [Загрузка пользователей (load_users_info.md)](docs/load_users_info.md): описание как загрузить в БД покупателей из датасета (сэмпла).
+
+Приложение `catalog`:
+- [Catalog (app_catalog_info.md))](docs/app_catalog_info.md): описание моделей, админок.
+- [Загрузка каталога продуктов (load_catalog_info.md)](docs/load_catalog_info.md): описание как загрузить в БД продуктовые департаменты, ряды и сами продукты из датасета (сэмпла).
 
 ---
 
@@ -161,6 +169,7 @@ http://localhost:8000/api/docs/
 - [x] Базовый API для рекомендаций
 - [x] Интеграция Kaggle dataset
 - [x] Алгоритмы PageRank / CF / kNN
+- [ ] Добавить авторизацию в системе по email
 - [ ] [Добавить Neo4j для больших графов](https://github.com/MaksimLakovich/Ecommerce-graph-recommendation-system/issues/3)
 - [ ] A/B тестирование качества рекомендаций
 - [ ] Визуализация графа (D3.js / Graphviz)
