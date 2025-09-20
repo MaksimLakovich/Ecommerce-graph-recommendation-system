@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     # Приложения проекта
     'users',
     'catalog',
+    'orders',
 ]
 
 MIDDLEWARE = [
