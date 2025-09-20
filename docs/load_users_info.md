@@ -23,7 +23,7 @@
 
 2. Запустите команду для загрузки пользователей:
    ```commandline
-   poetry run python manage.py load_users sample_data/orders_sample.csv
+   python manage.py load_users sample_data/orders_sample.csv
    ```
    
 3. В консоли появится информация о прогрессе:

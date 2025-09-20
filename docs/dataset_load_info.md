@@ -108,3 +108,9 @@
      ```commandline
      poetry run python sample_data/make_samples.py
      ```
+   - ⚠️ ⚠️ ⚠️ После запуска функции `make_samples.py` необходимо ОБЯЗАТЕЛЬНО пересобрать таблицу ***order_products_all_sample.csv*** и ***products_sample.csv*** 
+   так как там будет маленькая "случайная" выборка из-за того, что оригинальная таблица в датасете = 32 млн., а мы задаем выборку всего 10 тысяч (низкая случайность попадания по умолчанию).  
+   Для это достаточно запустить код в `sample_data/update_order_products_all_sample.py` с помощью команды и пересборка выполнится автоматически:
+     ```commandline
+     python sample_data/update_order_products_all_sample.py"
+     ```
