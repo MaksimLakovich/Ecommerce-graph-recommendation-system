@@ -4,8 +4,8 @@ from catalog.models import Aisle, Department, Product
 
 
 @admin.register(Department)
-class AdminDepartments(admin.ModelAdmin):
-    """Настройка отображения данных модели Departments в админке."""
+class AdminDepartment(admin.ModelAdmin):
+    """Настройка отображения данных модели Department в админке."""
     list_display = (
         "id",
         "dataset_department_id",
@@ -19,8 +19,8 @@ class AdminDepartments(admin.ModelAdmin):
 
 
 @admin.register(Aisle)
-class AdminAisles(admin.ModelAdmin):
-    """Настройка отображения данных модели Aisles в админке."""
+class AdminAisle(admin.ModelAdmin):
+    """Настройка отображения данных модели Aisle в админке."""
     list_display = (
         "id",
         "dataset_aisle_id",
@@ -34,8 +34,8 @@ class AdminAisles(admin.ModelAdmin):
 
 
 @admin.register(Product)
-class AdminProducts(admin.ModelAdmin):
-    """Настройка отображения данных модели Products в админке."""
+class AdminProduct(admin.ModelAdmin):
+    """Настройка отображения данных модели Product в админке."""
     list_display = (
         "id",
         "dataset_product_id",
