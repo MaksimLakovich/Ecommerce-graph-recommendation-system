@@ -5,7 +5,7 @@ from users.managers import UserManager
 
 
 class AppUser(AbstractUser):
-    """Модель представляет Пользователя/Ппокупателя (авторизация по email)."""
+    """Модель представляет Пользователя/Покупателя (авторизация по email)."""
 
     username = None  # type: ignore
     dataset_user_id = models.IntegerField(
@@ -13,7 +13,7 @@ class AppUser(AbstractUser):
         blank=True,
         db_index=True,
         verbose_name="ID пользователя в датасете:",
-        help_text="Введите ID пользователя в датасете:",
+        help_text="Введите ID пользователя в датасете",
     )
     email = models.EmailField(
         unique=True,
