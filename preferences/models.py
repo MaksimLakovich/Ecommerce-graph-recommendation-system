@@ -90,8 +90,8 @@ class UserInteraction(models.Model):
         verbose_name = "Взаимодействие пользователя"
         verbose_name_plural = "Взаимодействия пользователей"
         indexes = [
-            models.Index(fields=["user", "product"]),
-            models.Index(fields=["user", "aisle"]),
+            models.Index(fields=["user_id", "product_id"]),
+            models.Index(fields=["user_id", "aisle_id"]),
         ]
 
 
@@ -126,6 +126,6 @@ class UserPreference(models.Model):
         verbose_name_plural = "Явные предпочтения"
         # Дополнительно: запретить дублирование одного и того же явного предпочтения
         constraints = [
-            models.UniqueConstraint(fields=["user", "product"], name="unique_user_product_pref"),
-            models.UniqueConstraint(fields=["user", "aisle"], name="unique_user_aisle_pref"),
+            models.UniqueConstraint(fields=["user_id", "product_id"], name="unique_user_product_pref"),
+            models.UniqueConstraint(fields=["user_id", "aisle_id"], name="unique_user_aisle_pref"),
         ]
