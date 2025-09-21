@@ -48,7 +48,7 @@
 ---
 
 ## <a id="title2"> ⚙️ Технологии </a>
-- ***Backend***: Python, Django, Django REST Framework
+- ***Backend***: Python, Django, Django REST Framework, Faker
 - ***База данных***: PostgreSQL
 - ***Кэширование***: Redis
 - ***Графовые алгоритмы***: NetworkX
@@ -61,20 +61,43 @@
 ## <a id="title3"> 📂 Структура репозитория </a>
 ```bash
 .
-├── .venv                # Виртуальное окружение poetry
-├── config/              # Django проект и приложения, настройки
-├── data/                # Исходные CSV из Kaggle (оригинальный датасет "Instacart Market Basket Analysis")
-├── docs/                # Дополнительная документация по деталям (dataset_load_info.md, architecture.md, algorithms.md и т.д.)
-│    ├── dataset_load_info.md
+├── .venv                                   # Виртуальное окружение poetry
+├── config/                                 # Django проект и приложения, настройки
+├── data/                                   # Исходные CSV из Kaggle (оригинальный датасет "Instacart Market Basket Analysis")
+├── docs/                                   # Дополнительная документация по деталям (dataset_load_info.md, architecture.md, algorithms.md и т.д.)
 │    ├── app_users_info.md
+│    ├── app_catalog_info.md
+│    ├── app_orders_info.md
+│    ├── dataset_info.md
+│    ├── dataset_load_info.md
+│    ├── load_users_info.md
+│    ├── load_catalog_info.md
+│    ├── load_orders_info.md
 │    └── ...
-├── sample_data/         # Уменьшенный датасет для теста и GitHub
-├── users/               # Приложение проекта (клиенты)
+├── sample_data/                            # Уменьшенный датасет для теста и GitHub
+├── users/                                  # Приложение проекта (клиенты)
+│    ├── management
+│    │    └── commands
+│    │          └── load_users.py           # загрузка уменьшенного датасета в БД
 │    ├── admin.py
 │    ├── managers.py
 │    ├── models.py
 │    └── ...
-├── recommendation/      # Приложение проекта (алгоритмы рекомендаций)
+├── catalog/                                # Приложение проекта (каталог продуктов)
+│    ├── management
+│    │    └── commands
+│    │          └── load_catalog_data.py    # загрузка уменьшенного датасета в БД
+│    ├── admin.py
+│    ├── models.py
+│    └── ...
+├── orders/                                # Приложение проекта (заказы)
+│    ├── management
+│    │    └── commands
+│    │          └── load_orders_data.py    # загрузка уменьшенного датасета в БД
+│    ├── admin.py
+│    ├── models.py
+│    └── ...
+├── recommender/                            # Приложение проекта (алгоритмы рекомендаций)
 ├── .env.example
 ├── .flake8
 ├── .gitignore
@@ -144,6 +167,10 @@ http://localhost:8000/api/docs/
 Приложение `catalog`:
 - [Catalog (app_catalog_info.md))](docs/app_catalog_info.md): описание моделей, админок.
 - [Загрузка каталога продуктов (load_catalog_info.md)](docs/load_catalog_info.md): описание как загрузить в БД продуктовые департаменты, ряды и сами продукты из датасета (сэмпла).
+
+Приложение `orders`:
+- [Orders (app_orders_info.md))](docs/app_orders_info.md): описание моделей, админок.
+- [Загрузка заказов и их корзины (load_orders_info.md)](docs/load_orders_info.md): описание как загрузить в БД заказы покупателе и состав этих заказов (продукты в заказе) из датасета (сэмпла).
 
 ---
 

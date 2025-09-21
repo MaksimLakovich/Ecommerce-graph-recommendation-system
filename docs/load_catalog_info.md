@@ -1,4 +1,4 @@
-# Загрузка данных в Catalog
+# Загрузка данных в приложение Catalog
 
 Приложение `catalog` поддерживает загрузку тестовых данных из CSV-файлов сэмплов.  
 Используются таблицы из датасета **Instacart Market Basket Analysis**:
@@ -6,6 +6,8 @@
 1. `departments_sample.csv` — департаменты
 2. `aisles_sample.csv` — ряды/корзины
 3. `products_sample.csv` — продукты
+
+Для удобной загрузки данных создан management command: `load_catalog_data.py`.
 
 ---
 
@@ -52,6 +54,11 @@
 2. Используется get_or_create, поэтому повторный запуск команды не создаст дубликаты.
 
 
-3. Аргументы команды:
-- data_type — тип данных (departments, aisles, products)
-- csv_path — путь к CSV-файлу
+3. Синтаксис:
+   ```bash
+   python manage.py load_catalog_data <data_type> <csv_path>
+   ```
+
+   Аргументы команды:
+   - `data_type` — тип данных (departments, aisles, products)
+   - `csv_path` — путь к CSV-файлу

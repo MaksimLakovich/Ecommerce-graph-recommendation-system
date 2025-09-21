@@ -1,4 +1,4 @@
-# 📦 Приложение Catalog
+# 🗃️ Приложение Catalog
 
 Приложение `catalog` отвечает за хранение информации о товарах, рядах (aisles) и департаментах (departments).  
 Это база для построения графа рекомендаций и работы с каталогом товаров.
@@ -34,19 +34,19 @@
 ## 🖥 Админка
 
 ### Department
-- `list_display`: `id`, `dataset_department_id`, `department`
-- `list_filter`: `department`
-- `search_fields`: `dataset_department_id`, `department`
+- `list_display`: id, dataset_department_id, department
+- `list_filter`: department
+- `search_fields`: dataset_department_id, department
 
 ### Aisle
-- `list_display`: `id`, `dataset_aisle_id`, `aisle`
-- `list_filter`: `aisle`
-- `search_fields`: `dataset_aisle_id`, `aisle`
+- `list_display`: id, dataset_aisle_id, aisle
+- `list_filter`: aisle
+- `search_fields`: dataset_aisle_id, aisle
 
 ### Product
-- `list_display`: `id`, `dataset_product_id`, `product_name`, `aisle_id`, `department_id`
-- `list_filter`: `product_name`, `aisle_id`, `department_id`
-- `search_fields`: `dataset_product_id`, `product_name`, `aisle_id`, `department_id`
+- `list_display`: id, dataset_product_id, product_name, aisle_id, department_id
+- `list_filter`: product_name, aisle_id, department_id
+- `search_fields`: dataset_product_id, product_name, aisle_id, department_id
 
 ---
 
