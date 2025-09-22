@@ -8,7 +8,7 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv('SECRET_KEY_FOR_PROJECT')
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 DEBUG = True if os.getenv('DEBUG') == 'True' else False
 
@@ -26,6 +26,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',  # обязательно, иначе UI не поднимется
+
+    # DRF (Django REST framework) - это библиотека, которая работает со стандартными моделями Django для создания
+    # гибкого и мощного API-сервера для проекта.
+    'rest_framework',
+
+    # Приложения проекта
+    'users',
+    'catalog',
+    'orders',
+    'preferences',
 ]
 
 MIDDLEWARE = [
@@ -59,8 +69,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.getenv('DATABASE_NAME'),
+        'USER': os.getenv('DATABASE_USER'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+        'HOST': os.getenv('DATABASE_HOST'),
+        'PORT': os.getenv('DATABASE_PORT', default='5432'),
     }
 }
 
@@ -91,8 +105,26 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+# STATIC_ROOT важен при развертывании приложения на ВМ и использовании Nginx STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'users.AppUser'
+
+LOGOUT_REDIRECT_URL = 'users:login_page'
+
+LOGIN_URL = 'preferences:user_preferences_page'
+
+REDIS_URL = os.getenv('REDIS_URL')
+CACHE_ENABLED = True
+if CACHE_ENABLED:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+            'LOCATION': REDIS_URL,
+        }
+    }
