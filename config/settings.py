@@ -114,3 +114,17 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.AppUser'
+
+LOGOUT_REDIRECT_URL = 'users:login_page'
+
+LOGIN_URL = 'preferences:user_preferences_page'
+
+REDIS_URL = os.getenv('REDIS_URL')
+CACHE_ENABLED = True
+if CACHE_ENABLED:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+            'LOCATION': REDIS_URL,
+        }
+    }

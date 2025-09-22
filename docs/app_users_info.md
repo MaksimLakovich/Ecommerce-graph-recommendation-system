@@ -12,6 +12,29 @@
 - Используется кастомный менеджер `UserManager` для создания пользователей и суперпользователей.
 
 ---
+## 📲 Авторизация
+
+Реализована через встроенные механизмы Django:
+- Форма входа: `AppUserLoginForm` (`users/forms.py`).
+- Вью: `UserLoginView` (`users/views.py`).
+- Шаблоны:
+  - `login.html` — форма входа.
+  - `base.html` — общий шаблон с подключением Bootstrap.
+  - `menu.html` — меню с login/logout.
+- После входа → перенаправление на страницу `Мои предпочтения`.
+
+**Маршруты (`users/urls.py`):**
+- `/login/` → страница входа
+- `/logout/` → выход из системы
+
+**Настройки (`config/settings.py`):**
+```python
+LOGIN_URL = 'users:login'
+LOGIN_REDIRECT_URL = 'preferences:user_preferences'
+LOGOUT_REDIRECT_URL = 'users:login'
+```
+
+---
 
 ## 🗂 Модель `AppUser` в users/models.py
 
