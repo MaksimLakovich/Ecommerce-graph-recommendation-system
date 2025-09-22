@@ -179,19 +179,19 @@
 Подробное описание алгоритмов, архитектуры и процесса запуска находится в папке `docs/`.  
 
 Приложение `users`:
-- [Users (app_users_info.md))](docs/app_users_info.md): описание модели, админки, кастомной команды для создания новых пользователей.
+- [Users (app_users_info.md)](docs/app_users_info.md): описание модели, админки, кастомной команды для создания новых пользователей.
 - [Загрузка пользователей (load_users_info.md)](docs/load_users_info.md): описание как загрузить в БД покупателей из датасета (сэмпла).
 
 Приложение `catalog`:
-- [Catalog (app_catalog_info.md))](docs/app_catalog_info.md): описание моделей, админок.
+- [Catalog (app_catalog_info.md)](docs/app_catalog_info.md): описание моделей, админок.
 - [Загрузка каталога продуктов (load_catalog_info.md)](docs/load_catalog_info.md): описание как загрузить в БД продуктовые департаменты, ряды и сами продукты из датасета (сэмпла).
 
 Приложение `orders`:
-- [Orders (app_orders_info.md))](docs/app_orders_info.md): описание моделей, админок.
+- [Orders (app_orders_info.md)](docs/app_orders_info.md): описание моделей, админок.
 - [Загрузка заказов и их корзины (load_orders_info.md)](docs/load_orders_info.md): описание как загрузить в БД заказы покупателе и состав этих заказов (продукты в заказе) из датасета (сэмпла).
 
 Приложение `preferences`:
-- [Preferences (app_preferences_info.md))](docs/app_preferences_info.md): описание моделей, админок.
+- [Preferences (app_preferences_info.md)](docs/app_preferences_info.md): описание моделей, админок.
 - [Загрузка предпочтений покупателя (load_preferences_info.md)](docs/load_preferences_info.md): описание как загрузить в БД явные и неявные предпочтения покупателей.
 - [Страница "Мои предпочтения" (preferences_ui_info.md)](docs/preferences_ui_info.md): описание страницы "Мои предпочтения".
 
