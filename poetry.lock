@@ -1587,6 +1587,21 @@ slack = ["slack-sdk"]
 telegram = ["requests"]
 
 [[package]]
+name = "types-networkx"
+version = "3.5.0.20250918"
+description = "Typing stubs for networkx"
+optional = false
+python-versions = ">=3.10"
+groups = ["dev"]
+files = [
+    {file = "types_networkx-3.5.0.20250918-py3-none-any.whl", hash = "sha256:c7d3951e747333a65c0fb3011461e2de990c7ed5b49f4292ffc0d3febc8e2536"},
+    {file = "types_networkx-3.5.0.20250918.tar.gz", hash = "sha256:346cc347fc7670b5db29af9d4ba5fa077507ad7100ed7a02707f74fbf317be3c"},
+]
+
+[package.dependencies]
+numpy = ">=1.20"
+
+[[package]]
 name = "types-pytz"
 version = "2025.2.0.20250809"
 description = "Typing stubs for pytz"
@@ -1668,4 +1683,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12"
-content-hash = "19cfc146871b56bdc19434562f50819bf04aa19dd684773531855a994ca0eb4a"
+content-hash = "2ce5ac3a9b11c4b2a7a0901b575034c47b7799709c382223d2353e59006c1464"

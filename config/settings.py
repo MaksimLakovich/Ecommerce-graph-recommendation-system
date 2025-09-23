@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'catalog',
     'orders',
     'preferences',
+    'recommender',
 ]
 
 MIDDLEWARE = [
