@@ -66,10 +66,13 @@
 ├── data/                                            # Исходные CSV из Kaggle (оригинальный датасет "Instacart Market Basket Analysis")
 ├── docs/                                            # Дополнительная документация по деталям (dataset_load_info.md, architecture.md, algorithms.md и т.д.)
 ├── sample_data/                                     # Уменьшенный датасет для теста и GitHub
+│    ├── make_samples.py                             #
+│    ├── update_order_products_all_sample.py         #
+│    └── csv-files                                   # Полученные уменьшенные датасеты
 ├── users/                                           # Приложение проекта (клиенты)
 │    ├── management/
 │    │    └── commands/
-│    │          └── load_users.py                    # загрузка уменьшенного датасета в БД
+│    │          └── load_users.py                    # Загрузка уменьшенного датасета (.csv) в БД
 │    ├── templates/
 │    │    └── users/
 │    │          ├── base.html
@@ -84,21 +87,21 @@
 ├── catalog/                                         # Приложение проекта (каталог продуктов)
 │    ├── management/
 │    │    └── commands/
-│    │          └── load_catalog_data.py             # загрузка уменьшенного датасета в БД
+│    │          └── load_catalog_data.py             # Загрузка уменьшенного датасета (.csv) в БД
 │    ├── admin.py
 │    ├── models.py
 │    └── ...
 ├── orders/                                          # Приложение проекта (заказы)
 │    ├── management/
 │    │    └── commands/
-│    │          └── load_orders_data.py              # загрузка уменьшенного датасета в БД
+│    │          └── load_orders_data.py              # Загрузка уменьшенного датасета (.csv) в БД
 │    ├── admin.py
 │    ├── models.py
 │    └── ...
 ├── preferences/                                     # Приложение проекта (предпочтения)
 │    ├── management/
 │    │    └── commands/
-│    │          └── load_user_interaction_data.py    # загрузка уменьшенного датасета в БД
+│    │          └── load_user_interaction_data.py    # Загрузка уменьшенного датасета (.csv) в БД
 │    ├── templates/
 │    │    └── preferences/
 │    │          └── user_preferences.html
@@ -108,6 +111,15 @@
 │    ├── urls.py          # "my/"
 │    └── views.py         # UserPreferencesView(LoginRequiredMixin, FormView): Страница "Мои предпочтения" с выбором товарных предпочтений покупателем
 ├── recommender/                                     # Приложение проекта (алгоритмы рекомендаций)
+│    ├── algorithms/
+│    │   ├── pagerank.py            # Алгоритм PageRank для оценки важности узлов
+│    │   ├── collaborative.py       # Алгоритм Collaborative Filtering (коллаборативная фильтрация) для рекомендаций на основе схожести пользователей
+│    │   └── knn.py                 # Алгоритм k-Nearest Neighbors для нахождения ближайших соседей для нахождения пользователей с похожими интересами
+│    ├── services.py      # Сервисы для получения рекомендаций (интеграция всх трех алгоритмов воедино)
+│    └── tests/
+│        ├── test_pagerank.py
+│        ├── test_collaborative.py
+│        └── test_knn.py
 ├── .env.example
 ├── .flake8
 ├── .gitignore
@@ -194,6 +206,9 @@
 - [Preferences (app_preferences_info.md)](docs/app_preferences_info.md): описание моделей, админок.
 - [Загрузка предпочтений покупателя (load_preferences_info.md)](docs/load_preferences_info.md): описание как загрузить в БД явные и неявные предпочтения покупателей.
 - [Страница "Мои предпочтения" (preferences_ui_info.md)](docs/preferences_ui_info.md): описание страницы "Мои предпочтения".
+
+Приложение `recommender`:
+- [Recommender (app_recommender_info.md)](docs/app_recommender_info.md): описание графовых алгоритмов.
 
 ---
 
