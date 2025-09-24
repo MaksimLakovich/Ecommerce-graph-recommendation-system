@@ -88,8 +88,7 @@ def start_pagerank(G: nx.DiGraph, alpha=0.85) -> dict:
         G: граф networkx
         alpha: стандартно 0.85
     Возвращает:
-        dict {product_id}
-    """
+        dict {product_id}"""
     page_rank = nx.pagerank(G, alpha=alpha, weight='weight')
 
     # Фильтрую только продукты

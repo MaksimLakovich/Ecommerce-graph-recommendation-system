@@ -11,9 +11,9 @@ def make_graph(
         aisle_products: pd.DataFrame,
         aisle_products_weight: float = AISLE_PRODUCTS_WEIGHT,
 ) -> nx.Graph:
-    """Строит бипартитный граф (Collaborative Filtering), где:
+    """Строит бипартитный граф для "Collaborative Filtering", где:
     - Вершины: пользователи, продукты, категории (aisle).
-    - Рёбра:
+    - Ребра:
         "user -> product" со значением weight = weight из UserInteraction (implicit/explicit)
         "user -> aisle" со значением weight = weight из UserInteraction (explicit-предпочтения).
                 Пояснение: по факту сейчас не учитывается тот вес=5, так как вес 5 для явных продуктовых предпочтений,
@@ -24,8 +24,7 @@ def make_graph(
         user_interactions: DataFrame с данными модели UserInteraction (приложение users).
         aisle_products: DataFrame с данными модели Product (приложение catalog).
         aisle_products_weight: вес ребра aisle -> product (т.е., если выбрал категорию, то это вес для всех продуктов
-        из этой продуктовой категории).
-    """
+        из этой продуктовой категории)."""
     # ШАГ 1: Создаем пустой ненаправленный граф (graph) - ребра не имеют направление.
     G: nx.Graph = nx.Graph()
 
@@ -87,7 +86,7 @@ def get_user_neighbors(G: nx.Graph, user_id: int) -> List[str]:
 
 
 def get_similarity_between_users(G: nx.Graph, user1: int, user2: int) -> float:
-    """Считает схожесть пользователей по коэффициенту Жаккара."""
+    """Считает схожесть пользователей по коэффициенту Жаккара (число общих соседей / число уникальных соседей)."""
     n1 = set(get_user_neighbors(G, user1))  # поучаем связи покупателя с продуктами/категориями в формате множества
     n2 = set(get_user_neighbors(G, user2))
     if not n1 or not n2:
@@ -99,7 +98,7 @@ def get_similarity_between_users(G: nx.Graph, user1: int, user2: int) -> float:
     return len(n1 & n2) / len(n1 | n2)
 
 
-def recommend_for_user(G: nx.Graph, user_id: int, top_n: int = TOP_NUM) -> List[int]:
+def get_top_n_cf(G: nx.Graph, user_id: int, top_n: int = TOP_NUM) -> List[int]:
     """Рекомендует продукты пользователю на основе схожести пользователей."""
     user_node = f"user_{user_id}"
     if user_node not in G:
