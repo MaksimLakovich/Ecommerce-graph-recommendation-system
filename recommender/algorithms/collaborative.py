@@ -117,7 +117,7 @@ def recommend_for_user(G: nx.Graph, user_id: int, top_n: int = TOP_NUM) -> List[
                 # Записываю результат в словарь вида: {other_user_id: similarity_score}. Пример: {user_2354: 0.87}
                 similar_users[other_user_id] = similarity_score
 
-    # ШАГ 2: Потом определяю кандидатов для рекомендаций
+    # ШАГ 2: Потом определяю кандидаты-продукты для рекомендаций
     product_scores: Dict[int, float] = {}
     user_items = set(get_user_neighbors(G, user_id))
 
