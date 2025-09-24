@@ -129,3 +129,9 @@ if CACHE_ENABLED:
             'LOCATION': REDIS_URL,
         }
     }
+
+# Настройки для алгоритмов:
+# 1) Вес ребра "категория -> продукт" для алгоритмов PageRank, CF и kNN
+AISLE_PRODUCTS_WEIGHT = 0.5
+# 2) Количество рекомендуемых продуктов на выходе:
+TOP_NUM = 10
