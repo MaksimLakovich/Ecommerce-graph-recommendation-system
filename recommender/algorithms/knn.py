@@ -94,7 +94,7 @@ def get_knn(G: nx.Graph, user_id: int, num_neighbours: int = AMOUNT_NEIGHBOURS) 
     return top_neighbors
 
 
-def get_top_n_pagerank(
+def get_top_n_knn(
         G_user_similarity: nx.Graph,
         user_interactions: pd.DataFrame,
         user_id: int,
