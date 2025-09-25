@@ -1,4 +1,3 @@
-import json
 from typing import Dict, List
 
 import pandas as pd
@@ -9,6 +8,13 @@ from catalog.models import Product
 from config.settings import AISLE_PRODUCTS_WEIGHT, AMOUNT_NEIGHBOURS, TOP_NUM
 from preferences.models import UserInteraction
 from recommender.algorithms import collaborative, knn, pagerank
+
+
+def map_ids_to_names(product_ids: list[int]) -> list[str]:
+    """Возвращает список названий продуктов по списку ID."""
+    products = Product.objects.filter(id__in=product_ids)
+    id_to_name = {p.id: p.product_name for p in products}
+    return [id_to_name.get(pid, f"Продукт {pid}") for pid in product_ids]
 
 
 def get_recommendations_for_user(user_id: int) -> Dict[str, List[int]]:
@@ -23,7 +29,7 @@ def get_recommendations_for_user(user_id: int) -> Dict[str, List[int]]:
     # ШАГ 1. Проверяю кэш
     cached_data = cache.get(cache_key)
     if cached_data:
-        return json.loads(cached_data)
+        return cached_data
 
     # ШАГ 2. Загружаю данные для анализа
     user_interactions = pd.DataFrame.from_records(
@@ -79,11 +85,20 @@ def get_recommendations_for_user(user_id: int) -> Dict[str, List[int]]:
     )
 
     # ШАГ 4. Формирую итог (словарь)
+    pagerank_top_names = map_ids_to_names(pagerank_top)
+    cf_top_names = map_ids_to_names(cf_top)
+    knn_top_names = map_ids_to_names(knn_top)
+
     result = {
-        "pagerank": [int(prod_id) for prod_id in pagerank_top],
-        "collaborative": [int(prod_id) for prod_id in cf_top],
-        "knn": [int(prod_id) for prod_id in knn_top],
+        "pagerank": pagerank_top_names,
+        "collaborative": cf_top_names,
+        "knn": knn_top_names,
     }
+    # result = {
+    #     "pagerank": [int(prod_id) for prod_id in pagerank_top],
+    #     "collaborative": [int(prod_id) for prod_id in cf_top],
+    #     "knn": [int(prod_id) for prod_id in knn_top],
+    # }
 
     # ШАГ 5. Сохраняю результаты в Redis
     cache.set(cache_key, result, ttl)

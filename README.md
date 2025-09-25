@@ -107,19 +107,25 @@
 │    │          └── user_preferences.html
 │    ├── admin.py
 │    ├── models.py        # UserInteraction(models.Model), UserPreference(models.Model)
+│    ├── signals.py       # Сигнал об изменении в UserInteraction для сброса кэша
 │    ├── forms.py         # UserPreferencesForm(forms.Form): Форма выбора явных предпочтений покупателем (товарные категории)
 │    ├── urls.py          # "my/"
 │    └── views.py         # UserPreferencesView(LoginRequiredMixin, FormView): Страница "Мои предпочтения" с выбором товарных предпочтений покупателем
 ├── recommender/                                     # Приложение проекта (алгоритмы рекомендаций)
 │    ├── algorithms/
-│    │   ├── pagerank.py            # Алгоритм PageRank для оценки важности узлов
-│    │   ├── collaborative.py       # Алгоритм Collaborative Filtering (коллаборативная фильтрация) для рекомендаций на основе схожести пользователей
-│    │   └── knn.py                 # Алгоритм k-Nearest Neighbors для нахождения ближайших соседей для нахождения пользователей с похожими интересами
+│    │    ├── pagerank.py            # Алгоритм PageRank для оценки важности узлов
+│    │    ├── collaborative.py       # Алгоритм Collaborative Filtering (коллаборативная фильтрация) для рекомендаций на основе схожести пользователей
+│    │    └── knn.py                 # Алгоритм k-Nearest Neighbors для нахождения ближайших соседей для нахождения пользователей с похожими интересами
+│    ├── templates/
+│    │    └── recommender/
+│    │          └── user_recommendations.html
 │    ├── services.py      # Сервисы для получения рекомендаций (интеграция всх трех алгоритмов воедино)
-│    └── tests/
-│        ├── test_pagerank.py
-│        ├── test_collaborative.py
-│        └── test_knn.py
+│    ├── tests/
+│    │    ├── test_pagerank.py
+│    │    ├── test_collaborative.py
+│    │    └── test_knn.py
+│    ├── urls.py          # "my/", "api/recommendations/", "generate/"
+│    └── views.py         # ?
 ├── .env.example
 ├── .flake8
 ├── .gitignore
