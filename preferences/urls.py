@@ -7,7 +7,7 @@ from preferences.views import UserPreferencesView, UserPreferencesViewSet
 app_name = PreferencesConfig.name
 
 router = DefaultRouter()
-router.register(r"user-preferences", UserPreferencesViewSet, basename="user-preferences")
+router.register(r"api/preferences", UserPreferencesViewSet, basename="user-preferences")
 
 
 urlpatterns = [

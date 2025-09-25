@@ -156,7 +156,7 @@
 8. Документация API (Swagger/ReDoc) будет доступна по адресу: http://localhost:8000/api/docs/  
    ***Кратко про API:***
    - `API для предпочтений`: Пользователи могут управлять своими предпочтениями через API с использованием Django REST Framework.  
-   Эндпоинт: http://localhost:8000/preferences/user-preferences/
+   Эндпоинт: http://127.0.0.1:8000/preferences/api/preferences/
 
 ---
 
