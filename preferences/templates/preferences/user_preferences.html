@@ -14,6 +14,17 @@
         </div>
 
         <button type="submit" class="btn btn-dark">Сохранить мои предпочтения</button>
+
+        <div class="mt-5">
+            <label>После фиксации предпочтений можно получить ТОП-10 персонализированных рекомендаций</label>
+            <div>
+                <a href="{% url 'recommender:generate_user_recommendations' %}"
+                   class="btn btn-dark mt-4">
+                    Получить рекомендации
+                </a>
+            </div>
+        </div>
+
     </form>
 </div>
 
