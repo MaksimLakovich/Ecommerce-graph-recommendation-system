@@ -132,39 +132,39 @@ def get_top_n_cf(G: nx.Graph, user_id: int, top_n: int = TOP_NUM) -> List[int]:
     return top_products
 
 
-# -------------------- ТЕСТОВЫЙ ЗАПУСК ДЛЯ ОТЛАДКИ --------------------
-if __name__ == "__main__":
-    import os
-    import django
-
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
-    django.setup()
-
-    from preferences.models import UserInteraction
-    from catalog.models import Product
-
-    TEST_USER_ID = 4  # Можно указать любого пользователя
-
-    # Загружаем взаимодействия покупателя из UserInteraction
-    user_interactions = pd.DataFrame.from_records(
-        list(UserInteraction.objects.all().values(
-            "user_id_id", "product_id_id", "aisle_id_id", "weight", "interaction_type"
-        ))
-    )
-
-    # Загружаем продукты из каталога (Product)
-    aisle_products = pd.DataFrame.from_records(
-        list(Product.objects.all().values("dataset_product_id", "aisle_id"))
-    )
-
-    # Строим граф
-    G = make_graph(user_interactions, aisle_products)
-
-    # Получаем соседей пользователя (для отладки)
-    neighbors = get_user_neighbors(G, TEST_USER_ID)
-    print(f"Пользователь {TEST_USER_ID} связан с вершинами: {neighbors}")
-
-    # Топ-N рекомендаций
-    top_products = get_top_n_cf(G, TEST_USER_ID)
-    print(f"Top-{len(top_products)} рекомендованных продуктов (CF) для пользователя {TEST_USER_ID}:")
-    print(top_products)
+# # -------------------- ТЕСТОВЫЙ ЗАПУСК ДЛЯ ОТЛАДКИ --------------------
+# if __name__ == "__main__":
+#     import os
+#     import django
+#
+#     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
+#     django.setup()
+#
+#     from preferences.models import UserInteraction
+#     from catalog.models import Product
+#
+#     TEST_USER_ID = 4  # Можно указать любого пользователя
+#
+#     # Загружаем взаимодействия покупателя из UserInteraction
+#     user_interactions = pd.DataFrame.from_records(
+#         list(UserInteraction.objects.all().values(
+#             "user_id_id", "product_id_id", "aisle_id_id", "weight", "interaction_type"
+#         ))
+#     )
+#
+#     # Загружаем продукты из каталога (Product)
+#     aisle_products = pd.DataFrame.from_records(
+#         list(Product.objects.all().values("dataset_product_id", "aisle_id"))
+#     )
+#
+#     # Строим граф
+#     G = make_graph(user_interactions, aisle_products)
+#
+#     # Получаем соседей пользователя (для отладки)
+#     neighbors = get_user_neighbors(G, TEST_USER_ID)
+#     print(f"Пользователь {TEST_USER_ID} связан с вершинами: {neighbors}")
+#
+#     # Топ-N рекомендаций
+#     top_products = get_top_n_cf(G, TEST_USER_ID)
+#     print(f"Top-{len(top_products)} рекомендованных продуктов (CF) для пользователя {TEST_USER_ID}:")
+#     print(top_products)
