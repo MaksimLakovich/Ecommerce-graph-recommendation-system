@@ -17,7 +17,7 @@ def map_ids_to_names(product_ids: list[int]) -> list[str]:
     return [id_to_name.get(pid, f"Продукт {pid}") for pid in product_ids]
 
 
-def get_recommendations_for_user(user_id: int) -> Dict[str, List[int]]:
+def get_recommendations_for_user(user_id: int) -> Dict[str, List[str]]:
     """Возвращает рекомендации для пользователя по трем алгоритмам:
     - PageRank
     - Collaborative Filtering

@@ -1,9 +1,13 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
+from rest_framework import permissions, viewsets
 
 from preferences.forms import UserPreferencesForm
 from preferences.models import UserInteraction, UserPreference
+from recommender.services import reset_recommendations_cache
+
+from .serializers import UserPreferenceSerializer
 
 
 class UserPreferencesView(LoginRequiredMixin, FormView):
@@ -45,3 +49,31 @@ class UserPreferencesView(LoginRequiredMixin, FormView):
             )
 
         return super().form_valid(form)
+
+
+class UserPreferencesViewSet(viewsets.ModelViewSet):
+    """API-вью для управления предпочтениями пользователя."""
+
+    serializer_class = UserPreferenceSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        # Показываем только предпочтения текущего пользователя
+        return UserPreference.objects.filter(user_id=self.request.user)
+
+    def perform_create(self, serializer):
+        # Сохраняем UserPreference с привязкой к текущему пользователю
+        preference = serializer.save(user_id=self.request.user)
+
+        # Создаём UserInteraction
+        UserInteraction.objects.create(
+            user_id_id=self.request.user.id,
+            product_id_id=preference.product_id_id,
+            aisle_id_id=preference.aisle_id_id,
+            interaction_type="preference",
+            source="explicit",
+            weight=5.0
+        )
+
+        # Сбрасываем кэш рекомендаций
+        reset_recommendations_cache(self.request.user.id)
