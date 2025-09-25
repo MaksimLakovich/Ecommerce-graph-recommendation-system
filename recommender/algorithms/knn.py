@@ -11,7 +11,7 @@ def make_graph(user_interactions: pd.DataFrame) -> nx.Graph:
     - Вершины:
         Пользователи (user_{id}).
     - Ребра:
-        "user1 — user2": схожесть между пользователями на основе пересечений продуктов и категорий.
+        "user1 - user2": схожесть между пользователями на основе пересечений продуктов и категорий.
         Вес = коэффициент Жаккара (число общих соседей / число уникальных соседей).
     - Аргументы:
         user_interactions: DataFrame с данными модели UserInteraction (приложение users)."""
@@ -125,7 +125,7 @@ def get_top_n_knn(
         for idx, row in user_interactions.iterrows():
             # Оставляем только ПРОДУКТЫ убирая "aisels"
             if row["user_id_id"] == neighbor_id and pd.notna(row["product_id_id"]):
-                prod_id = row["product_id_id"]
+                prod_id = int(row["product_id_id"])
                 if prod_id not in user_products:
                     if prod_id not in product_scores:
                         product_scores[prod_id] = 0.0
@@ -145,3 +145,38 @@ def get_top_n_knn(
         top_products.append(sorted_product_scores[i][0])
 
     return top_products
+
+
+# # -------------------- ТЕСТОВЫЙ ЗАПУСК ДЛЯ ОТЛАДКИ --------------------
+# if __name__ == "__main__":
+#     import os
+#     import django
+#
+#     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
+#     django.setup()
+#
+#     from preferences.models import UserInteraction
+#
+#     TEST_USER_ID = 4  # Можно указать любого пользователя
+#     TOP_N = 10        # Сколько рекомендаций хотим получить
+#
+#     # Загружаем взаимодействия покупателя из UserInteraction
+#     user_interactions = pd.DataFrame.from_records(
+#         list(UserInteraction.objects.all().values(
+#             "user_id_id", "product_id_id", "aisle_id_id", "weight", "interaction_type"
+#         ))
+#     )
+#
+#     # Строим граф пользователей для kNN
+#     knn_data = make_graph(user_interactions)
+#
+#     print(f"Ребра с участием user_{TEST_USER_ID}:")
+#     for u, v, data in knn_data.edges(data=True):
+#         if f"user_{TEST_USER_ID}" in (u, v):
+#             print(f"{u} - {v}: weight={data['weight']}")
+#
+#     # Топ-N рекомендаций
+#     top_products = get_top_n_knn(knn_data, user_interactions, TEST_USER_ID, top_n=TOP_N)
+#
+#     print(f"Top-{len(top_products)} рекомендованных продуктов (kNN) для пользователя {TEST_USER_ID}:")
+#     print(top_products)
