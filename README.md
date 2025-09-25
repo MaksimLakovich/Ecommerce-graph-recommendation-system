@@ -110,6 +110,7 @@
 │    ├── serializers.py   # UserPreferenceSerializer для осуществления базовой сериализация в DRF
 │    ├── signals.py       # Сигнал об изменении в UserInteraction для сброса кэша
 │    ├── forms.py         # UserPreferencesForm(forms.Form): Форма выбора явных предпочтений покупателем (товарные категории)
+│    ├── tests.py
 │    ├── urls.py          # "my/"  + API
 │    └── views.py         # UserPreferencesView(LoginRequiredMixin, FormView): Страница "Мои предпочтения" с выбором товарных предпочтений покупателем / UserPreferencesViewSet(viewsets.ModelViewSet) - API-вью 
 ├── recommender/                                     # Приложение проекта (алгоритмы рекомендаций)
@@ -122,10 +123,7 @@
 │    │          └── user_recommendations.html
 │    ├── services.py      # Сервисы для получения рекомендаций (интеграция всх трех алгоритмов воедино)
 │    ├── serializers.py   # UserRecommendationsSerializer для представления рекомендаций пользователя по трем алгоритмам (PP, CF, nKK) в DRF / Сериализаторы для статистики
-│    ├── tests/
-│    │    ├── test_pagerank.py
-│    │    ├── test_collaborative.py
-│    │    └── test_knn.py
+│    ├── tests.py
 │    ├── urls.py          # "my/", "generate/"  + API
 │    └── views.py         # UserRecommendationsView(LoginRequiredMixin, TemplateView): отображения страницы "Рекомендации для меня" / UserRecommendationsViewSet(viewsets.ViewSet): DRF-вью для работы с рекомендациями
 ├── .env.example
@@ -196,17 +194,45 @@
 
 ---
 
-## <a id="title6"> 🚀 Быстрый старт </a>
+## <a id="title6"> 🚀 Быстрый старт (локально) </a>
 1. Клонировать репозиторий
     ```commandline
     git clone https://github.com/MaksimLakovich/Ecommerce-graph-recommendation-system.git
     cd Ecommerce-graph-recommendation-system
     ```
 
-2. Запустить проект
+2. Установить зависимости:
     ```commandline
-    docker-compose up --build
+    pip install --upgrade pip
+    pip install -r requirements.txt
     ```
+
+3. Настроить переменные окружения:
+    ```commandline
+    cp .env.example .env
+    ```
+
+4. Затем откройте .env и укажите значения для:
+    ```commandline
+    DJANGO_SECRET_KEY
+    DEBUG
+    DATABASE_NAME, DATABASE_USER, DATABASE_PASSWORD, DATABASE_HOST, DATABASE_PORT
+    REDIS_URL
+    ALLOWED_HOSTS
+    ```
+
+5. Применить миграции и создать суперпользователя:
+    ```commandline
+    python manage.py migrate
+    python manage.py createsuperuser
+    ```
+
+6. Запустить сервер:
+    ```commandline
+    python manage.py runserver
+    ```
+
+После этого сервис будет доступен по адресу: http://127.0.0.1:8000/
 
 ---
 
@@ -263,11 +289,11 @@
 - [x] API для предпочтений (эндпоинты для добавления предпочтений)
 - [x] Алгоритмы PageRank / CF / kNN на основе графового представления
 - [x] Интерфейс взаимодействия с покупателем (кнопка для получения рекомендаций / веб-страница для отображения рекомендаций пользователю)
-- [ ] API для рекомендаций (эндпоинты для получения рекомендаций)
-- [ ] Статистика и аналитика (страница для отображения статистики рекомендаций и популярности элементов)
-- [ ] API для рекомендаций (эндпоинты для получения статистики)
-- [ ] Документация (оформить инструкцию по запуску сервиса и взаимодействию с проектом в README файле)
-- [ ] Тестирование (написание тестов для проверки корректности работы алгоритмов и системы в целом)
+- [X] API для рекомендаций (эндпоинты для получения рекомендаций)
+- [x] Статистика и аналитика (страница для отображения статистики рекомендаций и популярности элементов)
+- [X] API для рекомендаций (эндпоинты для получения статистики)
+- [X] Документация (оформить инструкцию по запуску сервиса и взаимодействию с проектом в README файле)
+- [X] Тестирование (написание базовых тестов для проверки API)
 
 #### Будущие доработки (развитие системы):
 - [ ] CI/CD для продакшн-сервера
