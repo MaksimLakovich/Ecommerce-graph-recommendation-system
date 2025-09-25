@@ -110,7 +110,7 @@
 │    ├── serializers.py   # UserPreferenceSerializer для осуществления базовой сериализация в DRF
 │    ├── signals.py       # Сигнал об изменении в UserInteraction для сброса кэша
 │    ├── forms.py         # UserPreferencesForm(forms.Form): Форма выбора явных предпочтений покупателем (товарные категории)
-│    ├── urls.py          # "my/"  + router.urls
+│    ├── urls.py          # "my/"  + API
 │    └── views.py         # UserPreferencesView(LoginRequiredMixin, FormView): Страница "Мои предпочтения" с выбором товарных предпочтений покупателем / UserPreferencesViewSet(viewsets.ModelViewSet) - API-вью 
 ├── recommender/                                     # Приложение проекта (алгоритмы рекомендаций)
 │    ├── algorithms/
@@ -121,12 +121,12 @@
 │    │    └── recommender/
 │    │          └── user_recommendations.html
 │    ├── services.py      # Сервисы для получения рекомендаций (интеграция всх трех алгоритмов воедино)
-│    ├── serializers.py   # UserRecommendationsSerializer для представления рекомендаций пользователя по трем алгоритмам (PP, CF, nKK) в DRF
+│    ├── serializers.py   # UserRecommendationsSerializer для представления рекомендаций пользователя по трем алгоритмам (PP, CF, nKK) в DRF / Сериализаторы для статистики
 │    ├── tests/
 │    │    ├── test_pagerank.py
 │    │    ├── test_collaborative.py
 │    │    └── test_knn.py
-│    ├── urls.py          # "my/", "generate/"  + router.urls
+│    ├── urls.py          # "my/", "generate/"  + API
 │    └── views.py         # UserRecommendationsView(LoginRequiredMixin, TemplateView): отображения страницы "Рекомендации для меня" / UserRecommendationsViewSet(viewsets.ViewSet): DRF-вью для работы с рекомендациями
 ├── .env.example
 ├── .flake8
@@ -160,6 +160,10 @@
    Эндпоинт: http://127.0.0.1:8000/preferences/api/preferences/
    - `API для рекомендаций`: Пользователи могут получать рекомендации для них через API с использованием Django REST Framework.  
    Эндпоинт: http://127.0.0.1:8000/recommendations/api/recommendations/
+   - `API для статистики`: Пользователи могут получать статистику с самыми популярными продуктами и категориями среди всех покупателей через API с использованием Django REST Framework.  
+   Эндпоинты:  
+   http://127.0.0.1:8000/recommendations/api/statistics/popular_products/  
+   http://127.0.0.1:8000/recommendations/api/statistics/popular_aisles/  
 
 ---
 

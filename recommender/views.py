@@ -3,6 +3,8 @@ from django.db.models import Sum
 from django.shortcuts import redirect
 from django.views.generic import TemplateView, View
 from rest_framework import permissions, viewsets
+from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from catalog.models import Aisle, Product
@@ -49,7 +51,7 @@ class UserRecommendationsViewSet(viewsets.ViewSet):
 
 
 class GenerateUserRecommendationsView(LoginRequiredMixin, View):
-    """Вью для генерации рекомендаций для текущего пользователя и редиректа на страницу с результатами.
+    """View для генерации рекомендаций для текущего пользователя и редиректа на страницу с результатами.
     Используется при нажатии кнопки "Получить рекомендации" на странице предпочтений."""
 
     def get(self, request, *args, **kwargs):
@@ -119,3 +121,54 @@ class RecommendationStatisticsView(TemplateView):
         context["top_aisles"] = top_aisles
 
         return context
+
+
+class StatisticsViewSet(viewsets.ViewSet):
+    """DRF ViewSet для получения статистики рекомендаций и предпочтений. Доступно только авторизованным пользователям.
+    Эндпоинты:
+        GET /recommender/statistics/popular-products/ возвращает топ-10 популярных продуктов.
+        GET /recommender/statistics/popular-aisles/ возвращает топ-5 популярных категорий (aisles)."""
+
+    permission_classes = [IsAuthenticated]
+
+    @action(detail=False, methods=["get"])
+    def popular_products(self, request):
+        """Возвращает топ-10 продуктов по суммарному весу (weight). Только продукты, у которых указан product_id."""
+        popular_products = (
+            UserInteraction.objects
+            .filter(product_id__isnull=False)
+            .values("product_id")
+            .annotate(total_weight=Sum("weight"))
+            .order_by("-total_weight")[:10]
+        )
+
+        data = [
+            {
+                "product": Product.objects.get(id=item["product_id"]).product_name,
+                "total_weight": item["total_weight"]
+            }
+            for item in popular_products
+        ]
+
+        return Response(data)
+
+    @action(detail=False, methods=["get"])
+    def popular_aisles(self, request):
+        """Возвращает топ-5 категорий (aisles) по суммарному весу (weight)."""
+        popular_aisles = (
+            UserInteraction.objects
+            .filter(aisle_id__isnull=False)
+            .values("aisle_id")
+            .annotate(total_weight=Sum("weight"))
+            .order_by("-total_weight")[:5]
+        )
+
+        data = [
+            {
+                "aisle": Aisle.objects.get(id=item["aisle_id"]).aisle,
+                "total_weight": item["total_weight"]
+            }
+            for item in popular_aisles
+        ]
+
+        return Response(data)
