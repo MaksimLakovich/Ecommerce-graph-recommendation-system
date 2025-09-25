@@ -5,10 +5,10 @@ import pandas as pd
 from django.conf import settings
 from django.core.cache import cache
 
-from config.settings import AISLE_PRODUCTS_WEIGHT, TOP_NUM, AMOUNT_NEIGHBOURS
-from recommender.algorithms import pagerank, collaborative, knn
-from preferences.models import UserInteraction
 from catalog.models import Product
+from config.settings import AISLE_PRODUCTS_WEIGHT, AMOUNT_NEIGHBOURS, TOP_NUM
+from preferences.models import UserInteraction
+from recommender.algorithms import collaborative, knn, pagerank
 
 
 def get_recommendations_for_user(user_id: int) -> Dict[str, List[int]]:
