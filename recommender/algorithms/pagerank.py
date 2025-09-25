@@ -146,7 +146,7 @@ def get_top_n_pagerank(pr: dict, top_n: int = TOP_NUM) -> list:
 #     print(f"PageRank для всех узлов графа для пользователя {TEST_USER_ID}:")
 #     print(pr)
 #
-#     # Топ-N рекомендаций (без уже купленных)
+#     # Топ-N рекомендаций
 #     top_products = get_top_n_pagerank(pr)
 #     print(f"Top-{len(top_products)} рекомендованных продуктов для пользователя {TEST_USER_ID}:")
 #     print(top_products)
