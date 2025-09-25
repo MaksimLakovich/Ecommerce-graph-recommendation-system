@@ -12,67 +12,55 @@ def make_graph(
         aisle_products_weight: float = AISLE_PRODUCTS_WEIGHT,
 ) -> nx.Graph:
     """Строит бипартитный граф для "Collaborative Filtering", где:
-    - Вершины: пользователи, продукты, категории (aisle).
+    - Вершины: пользователи, продукты.
     - Ребра:
-        "user -> product" со значением weight = weight из UserInteraction (implicit/explicit)
-        "user -> aisle" со значением weight = weight из UserInteraction (explicit-предпочтения).
-                Пояснение: по факту сейчас не учитывается тот вес=5, так как вес 5 для явных продуктовых предпочтений,
-                а для предпочтений категорий я делаю чуть меньший вес, чтоб не ставить всем продуктам в категории 5 -
-                ставим 0,5 для продуктов из предпочитаемой категории;
-        "aisle -> product" со значением weight = aisle_products_weight.
+        - implicit события (история заказов): "user -> product" со значением weight = weight из UserInteraction.
+        - explicit события (предпочтения aisle): "user -> все продукты этого aisle" с пониженным значением
+          weight = AISLE_PRODUCTS_WEIGHT из settings.py.
     - Аргументы:
         user_interactions: DataFrame с данными модели UserInteraction (приложение users).
         aisle_products: DataFrame с данными модели Product (приложение catalog).
         aisle_products_weight: вес ребра aisle -> product (т.е., если выбрал категорию, то это вес для всех продуктов
         из этой продуктовой категории)."""
+
     # ШАГ 1: Создаем пустой ненаправленный граф (graph) - ребра не имеют направление.
     G: nx.Graph = nx.Graph()
 
-    # Добавляем пользователей, их продукты из истории заказов и предпочитаемые категории как узлы
+    # ШАГ 2: Создаем вершины графа.
     users = user_interactions["user_id_id"].unique()
-    products = aisle_products["product_id"].unique()
-    # "user_interactions['interaction_type'] == 'preference'" --- это создает True/False для каждой строки, где тип
-    # взаимодействия - это явное предпочтение
-    pref_rows = user_interactions[user_interactions["interaction_type"] == "preference"]
-    # ".dropna()" --- удаляет пропущенные значения (None) в колонке aisle_id_id.
-    # ".unique()" --- возвращает массив уникальных значений aisle_id.
-    aisles = pref_rows["aisle_id_id"].dropna().unique()
-
-    # ШАГ 2: Создаем вершины графа
     for user in users:
         G.add_node(f"user_{user}", type="user", bipartite="users")
+
+    products = aisle_products["dataset_product_id"].unique()
     for product in products:
         G.add_node(f"product_{product}", type="product", bipartite="items")
-    for aisle in aisles:
-        G.add_node(f"aisle_{aisle}", type="aisle", bipartite="categories")
 
-    # ШАГ 3: Делаем ребра (связи "user -> product" и "user -> aisle")
+    # ШАГ 3: Делаем ребра.
+    # 1) Сразу отрабатываем implicit-события (история заказов): "user -> product"
     for _, row in user_interactions.iterrows():
         user_node = f"user_{row['user_id_id']}"
-        # Определяю связь с продуктом (тут проверяем что значение в "product_id" не "null")
+        # Определяю связь с продуктом (проверяем что в "product_id" не "null", а значит это ПРОДУКТ, а не категория)
         if pd.notna(row["product_id_id"]):
-            product_node = f"product_{row['product_id_id']}"
-            # Тут создаю ребро с весом для вершин "Покупатель" и "Продукт"
+            product_node = f"product_{int(row['product_id_id'])}"
+            # Создаю ребро с весом для вершин "Покупатель" и "Продукт" из implicit-событий (история заказов)
             G.add_edge(user_node, product_node, weight=row["weight"])
-        # Если "product_id" = null, то значит это связь с продуктовой категорией, т.е. это явное предпочтение,
-        # которое указанно покупателем в "Мои предпочтения"
-        if row["interaction_type"] == "preference" and pd.notna(row["aisle_id_id"]):
-            aisle_node = f"aisle_{row['aisle_id_id']}"
-            # Тут создаю ребро с весом для вершин "Покупатель" и "Продуктовая категория"
-            G.add_edge(user_node, aisle_node, weight=row["weight"])
 
-    # Далее делаем ребро (связь "aisle -> product" (все продукты категории)) - если покупатель зафиксировал
-    # в "Мои предпочтения" какую-то категорию, то для всех продуктов из этой категории делаю чуть меньший вес,
-    # потому что не правильно ставить всем продуктам в категории "5.0" как для явных предпочтений (покупатель может в
-    # целом предпочитать категорию, но не предпочитать например все 100 продуктов в ней), поэтому чтоб в рекомендациях
-    # учитывать предпочитаемые категории - ставим 0,5 для продуктов из этой категории (это немного поднимет рейтинг)
-    for _, row in aisle_products.iterrows():
-        product_node = f"product_{row['product_id']}"
-        aisle_node = f"aisle_{row['aisle_id']}"
-        # Исключаю дублирования ребер
-        if not G.has_edge(aisle_node, product_node):
-            # Тут создаю ребро с весом для вершин "Категория" и "Продукт"
-            G.add_edge(aisle_node, product_node, weight=aisle_products_weight)
+    # 2) Потом отрабатываем explicit-события (предпочтения aisle): "user -> все продукты этого aisle" с пониженным
+    # значением weight = AISLE_PRODUCTS_WEIGHT. Пояснение: если покупатель зафиксировал в "Мои предпочтения" какую-то
+    # категорию, то для всех продуктов из этой категории делаю чуть меньший вес, потому что не правильно ставить всем
+    # продуктам в категории "5.0" как для явных предпочтений (покупатель может в целом предпочитать категорию,
+    # но не предпочитать например все 100 продуктов в ней), поэтому чтоб в рекомендациях учитывать предпочитаемые
+    # категории - ставим 0,5 (AISLE_PRODUCTS_WEIGHT) для продуктов из этой категории (это немного поднимет рейтинг)
+    preferences = user_interactions[user_interactions["interaction_type"] == "preference"]
+    for _, row in preferences.iterrows():
+        user_node = f"user_{row['user_id_id']}"
+        aisle_id = row["aisle_id_id"]
+        # ищу все продукты в данной категории
+        products_in_aisle = aisle_products[aisle_products["aisle_id"] == aisle_id]
+        for _, prod_row in products_in_aisle.iterrows():
+            product_node = f"product_{int(prod_row['dataset_product_id'])}"
+            # Создаю ребро с весом для вершин "Покупатель" и "Продукт" из explicit-событий (предпочтения)
+            G.add_edge(user_node, product_node, weight=aisle_products_weight)
 
     return G
 
@@ -142,3 +130,41 @@ def get_top_n_cf(G: nx.Graph, user_id: int, top_n: int = TOP_NUM) -> List[int]:
         top_products.append(product_id)
 
     return top_products
+
+
+# -------------------- ТЕСТОВЫЙ ЗАПУСК ДЛЯ ОТЛАДКИ --------------------
+if __name__ == "__main__":
+    import os
+    import django
+
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
+    django.setup()
+
+    from preferences.models import UserInteraction
+    from catalog.models import Product
+
+    TEST_USER_ID = 1  # Можно указать любого пользователя
+
+    # Загружаем взаимодействия покупателя из UserInteraction
+    user_interactions = pd.DataFrame.from_records(
+        list(UserInteraction.objects.all().values(
+            "user_id_id", "product_id_id", "aisle_id_id", "weight", "interaction_type"
+        ))
+    )
+
+    # Загружаем продукты из каталога (Product)
+    aisle_products = pd.DataFrame.from_records(
+        list(Product.objects.all().values("dataset_product_id", "aisle_id"))
+    )
+
+    # Строим граф
+    G = make_graph(user_interactions, aisle_products)
+
+    # Получаем соседей пользователя (для отладки)
+    neighbors = get_user_neighbors(G, TEST_USER_ID)
+    print(f"Пользователь {TEST_USER_ID} связан с вершинами: {neighbors}")
+
+    # Топ-N рекомендаций
+    top_products = get_top_n_cf(G, TEST_USER_ID)
+    print(f"Top-{len(top_products)} рекомендованных продуктов (CF) для пользователя {TEST_USER_ID}:")
+    print(top_products)
