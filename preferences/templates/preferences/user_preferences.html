@@ -3,11 +3,12 @@
 {% block content %}
 
 <div class="border-top pt-4 my-md-5 pt-md-5 border-top">
+    <h1 class="text-3xl font-bold mb-4">Зафиксируйте товарные категории, которые вам интересны</h1>
     <form method="post">
         {% csrf_token %}
 
         <div class="mb-3">
-            <label class="form-label fw-bold">Зафиксируйте товарные категориях, которые вам интересны:</label>
+<!--            <label class="form-label fw-bold">Зафиксируйте товарные категориях, которые вам интересны:</label>-->
             <div class="border rounded p-2" style="max-height: 500px; overflow-y: auto;">
                 {{ form.aisles }}
             </div>

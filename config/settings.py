@@ -118,7 +118,7 @@ AUTH_USER_MODEL = 'users.AppUser'
 
 LOGOUT_REDIRECT_URL = 'users:login_page'
 
-LOGIN_URL = 'preferences:user_preferences_page'
+LOGIN_URL = 'recommender:user_recommendations_page'
 
 REDIS_URL = os.getenv('REDIS_URL')
 CACHE_ENABLED = True

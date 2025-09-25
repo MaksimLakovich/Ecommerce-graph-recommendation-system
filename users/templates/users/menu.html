@@ -13,6 +13,12 @@
         <!-- Кнопки навигации -->
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-5">
             <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'user_recommendations_page' %}active fw-bold{% endif %}"
+                   href="{% url 'recommender:user_recommendations_page' %}">
+                    Рекомендации для меня
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link {% if request.resolver_match.url_name == 'user_preferences_page' %}active fw-bold{% endif %}"
                    aria-current="page"
                    href="{% url 'preferences:user_preferences_page' %}">
@@ -20,14 +26,8 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if request.resolver_match.url_name == 'user_recommendations_page' %}active fw-bold{% endif %}"
-                   href="{% url 'recommender:user_recommendations_page' %}">
-                    Рекомендации для меня
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {% if request.resolver_match.url_name == 'statistics_page' %}active fw-bold{% endif %}"
-                   href="#">
+                <a class="nav-link {% if request.resolver_match.url_name == 'recommendation_statistics_page' %}active fw-bold{% endif %}"
+                   href="{% url 'recommender:recommendation_statistics_page' %}">
                     Статистика
                 </a>
             </li>
