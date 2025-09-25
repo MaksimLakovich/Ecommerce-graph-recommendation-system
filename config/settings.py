@@ -31,6 +31,9 @@ INSTALLED_APPS = [
     # гибкого и мощного API-сервера для проекта.
     'rest_framework',
 
+    # Документация
+    'drf_yasg',
+
     # Приложения проекта
     'users',
     'catalog',
