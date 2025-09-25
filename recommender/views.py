@@ -1,9 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.views.generic import TemplateView, View
+from rest_framework import permissions, viewsets
+from rest_framework.response import Response
 
 from recommender.services import get_recommendations_for_user
+
+from recommender.serializers import UserRecommendationsSerializer
 
 
 class UserRecommendationsView(LoginRequiredMixin, TemplateView):
@@ -28,26 +31,19 @@ class UserRecommendationsView(LoginRequiredMixin, TemplateView):
         return context
 
 
-class UserRecommendationsAPIView(LoginRequiredMixin, View):
-    """API-вью для получения рекомендаций в формате JSON.
-    URL: /recommendations/api/recommendations/
-    Метод: GET
-    Ответ:
-        JSON-словарь:
-        {
-            "pagerank": [...],
-            "collaborative": [...],
-            "knn": [...]
-        }"""
+class UserRecommendationsViewSet(viewsets.ViewSet):
+    """DRF ViewSet для работы с рекомендациями.
+    GET /recommendations/api/recommendations/ возвращает рекомендации текущего пользователя."""
 
-    def get(self, request, *args, **kwargs):
-        """Обработка GET-запроса для получения рекомендаций пользователя.
-        Возвращает:
-            JsonResponse: рекомендации в формате JSON."""
+    permission_classes = [permissions.IsAuthenticated]
+
+    def list(self, request):
+        """Возвращает рекомендации текущего пользователя."""
         user = request.user
         recommendations = get_recommendations_for_user(user.id)
+        serializer = UserRecommendationsSerializer(recommendations)
 
-        return JsonResponse(recommendations)
+        return Response(serializer.data)
 
 
 class GenerateUserRecommendationsView(LoginRequiredMixin, View):

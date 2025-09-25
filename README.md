@@ -121,12 +121,13 @@
 │    │    └── recommender/
 │    │          └── user_recommendations.html
 │    ├── services.py      # Сервисы для получения рекомендаций (интеграция всх трех алгоритмов воедино)
+│    ├── serializers.py   # UserRecommendationsSerializer для представления рекомендаций пользователя по трем алгоритмам (PP, CF, nKK) в DRF
 │    ├── tests/
 │    │    ├── test_pagerank.py
 │    │    ├── test_collaborative.py
 │    │    └── test_knn.py
-│    ├── urls.py          # "my/", "api/recommendations/", "generate/"
-│    └── views.py         # ?
+│    ├── urls.py          # "my/", "generate/"  + router.urls
+│    └── views.py         # UserRecommendationsView(LoginRequiredMixin, TemplateView): отображения страницы "Рекомендации для меня" / UserRecommendationsViewSet(viewsets.ViewSet): DRF-вью для работы с рекомендациями
 ├── .env.example
 ├── .flake8
 ├── .gitignore
@@ -157,6 +158,8 @@
    ***Кратко про API:***
    - `API для предпочтений`: Пользователи могут управлять своими предпочтениями через API с использованием Django REST Framework.  
    Эндпоинт: http://127.0.0.1:8000/preferences/api/preferences/
+   - `API для рекомендаций`: Пользователи могут получать рекомендации для них через API с использованием Django REST Framework.  
+   Эндпоинт: http://127.0.0.1:8000/recommendations/api/recommendations/
 
 ---
 
