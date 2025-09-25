@@ -160,14 +160,15 @@
    ```
 2. Укажите значения для переменных:
 
-| Переменная | Описание                    | Пример                |
-| ------- |-----------------------------|-----------------------|
-| `DJANGO_SECRET_KEY` | Секретный ключ Django       | `django-insecure-...` |
-| `DEBUG` | Режим отладки (True/False)  | `True`                |
-| `DATABASE_NAME`      | Назване БД в PostgreSQL     | `<some_bd_name>`      |
-| `DATABASE_PASSWORD` | Пароль к БД в PostgreSQL    | `<some_bd_password>`  |
-| `DATABASE_HOST`           | Хост БД                     |                       |
-| `DATABASE_PORT`           | Порт БД                     |                       |
+| Переменная | Описание                   | Пример                |
+| ------- |----------------------------|-----------------------|
+| `DJANGO_SECRET_KEY` | Секретный ключ Django      | `django-insecure-...` |
+| `DEBUG` | Режим отладки (True/False) | `True`                |
+| `DATABASE_NAME`      | Назване БД в PostgreSQL    | `<some_bd_name>`      |
+| `DATABASE_PASSWORD` | Пароль к БД в PostgreSQL   | `<some_bd_password>`  |
+| `DATABASE_HOST`           | Хост БД                    |                       |
+| `DATABASE_PORT`           | Порт БД                    |                       |
+| `REDIS_URL`           | Порт Redis-сервера         | `<.../1>`                    |
 | `ALLOWED_HOSTS` | Список хостов через запятую | `localhost,127.0.0.1` |
 
 ---
