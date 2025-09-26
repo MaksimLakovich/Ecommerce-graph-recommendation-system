@@ -18,7 +18,7 @@ class UserLoginView(LoginView):
         """Метод get_success_url() в LoginView - это предпочтительный для Django способ указания редиректа после
         успешной аутентификации. Если просто указать в контроллере "success_url = reverse_lazy(
         '<какое-то приложение>:main_page', то это не будет работать."""
-        return reverse_lazy("preferences:user_preferences_page")
+        return reverse_lazy("recommender:user_recommendations_page")
 
     def form_valid(self, form):
         """Автоматический вход пользователя после успешной аутентификации."""

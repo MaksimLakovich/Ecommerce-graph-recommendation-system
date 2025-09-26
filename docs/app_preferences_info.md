@@ -52,6 +52,28 @@
 
 ---
 
+## 🔄 Кэширование рекомендаций
+
+- Для каждого пользователя рекомендации сохраняются в Redis-кэше для ускорения работы API.  
+- TTL кэша по умолчанию - 1 час (`RECOMMENDER_CACHE_TTL = 3600`). Можно указать настройку в settings.py  
+- Кэш используется для алгоритмов:
+  - PageRank
+  - Collaborative Filtering
+  - kNN  
+
+### Сброс кэша
+- Сбрасывается автоматически при изменении записей `UserInteraction` покупателем (навая покупка или новые предпочтения).  
+- Используется сигнал `post_save` в `preferences/signals.py`:
+  ```python
+  @receiver(post_save, sender=UserInteraction)
+  def reset_cache_on_user_interaction(sender, instance, **kwargs):
+      reset_recommendations_cache(instance.user_id_id)
+
+1. Поскольку добавление явных предпочтений выполняется через полное удаление старых и запись новых данных, отдельный post_delete не требуется.
+
+2. Любое изменение UserInteraction гарантированно сбрасывает кэш и обновляет рекомендации при следующем запросе.
+
+---
 
 ## 🔗 Схема связи
 

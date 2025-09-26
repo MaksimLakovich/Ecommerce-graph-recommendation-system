@@ -3,17 +3,29 @@
 {% block content %}
 
 <div class="border-top pt-4 my-md-5 pt-md-5 border-top">
+    <h1 class="text-3xl font-bold mb-4">Зафиксируйте товарные категории, которые вам интересны</h1>
     <form method="post">
         {% csrf_token %}
 
         <div class="mb-3">
-            <label class="form-label fw-bold">Зафиксируйте товарные категориях, которые вам интересны:</label>
+<!--            <label class="form-label fw-bold">Зафиксируйте товарные категориях, которые вам интересны:</label>-->
             <div class="border rounded p-2" style="max-height: 500px; overflow-y: auto;">
                 {{ form.aisles }}
             </div>
         </div>
 
         <button type="submit" class="btn btn-dark">Сохранить мои предпочтения</button>
+
+        <div class="mt-5">
+            <label>После фиксации предпочтений можно получить ТОП-10 персонализированных рекомендаций</label>
+            <div>
+                <a href="{% url 'recommender:generate_user_recommendations' %}"
+                   class="btn btn-dark mt-4">
+                    Получить рекомендации
+                </a>
+            </div>
+        </div>
+
     </form>
 </div>
 
