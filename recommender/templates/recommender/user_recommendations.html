@@ -1,0 +1,54 @@
+{% extends "users/base.html" %}
+
+{% block title %}Рекомендации{% endblock %}
+
+{% block content %}
+<div class="border-top pt-4 my-md-5 pt-md-5 border-top">
+    <h1 class="text-3xl font-bold mb-4">
+        {{ first_name }}, привет!
+    </h1>
+    <h5 class="text-3xl font-bold mb-4">
+        на этой странице вы можете увидеть персонализированные рекомендации для вас на основе ваших покупок и
+        предпочтений.
+    </h5>
+    <h5 class="text-3xl font-bold mb-4">
+        Зафиксировать свои предпочтения можно на странице "Мои предпочтения".
+    </h5>
+
+    {% if recommendations %}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- PageRank -->
+        <div class="bg-white p-4 shadow rounded">
+            <h2 class="text-xl font-semibold mb-2">PageRank</h2>
+            <ul class="list-disc list-inside">
+                {% for product in recommendations.pagerank %}
+                <li>{{ product }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Collaborative Filtering -->
+        <div class="bg-white p-4 shadow rounded">
+            <h2 class="text-xl font-semibold mb-2">Collaborative Filtering</h2>
+            <ul class="list-disc list-inside">
+                {% for product in recommendations.collaborative %}
+                <li>{{ product }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- kNN -->
+        <div class="bg-white p-4 shadow rounded">
+            <h2 class="text-xl font-semibold mb-2">kNN</h2>
+            <ul class="list-disc list-inside">
+                {% for product in recommendations.knn %}
+                <li>{{ product }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% else %}
+    <p class="text-gray-500">Рекомендации ещё не доступны.</p>
+    {% endif %}
+</div>
+{% endblock %}
